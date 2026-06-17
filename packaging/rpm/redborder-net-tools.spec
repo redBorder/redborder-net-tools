@@ -20,9 +20,9 @@ Summary: redBorder Proxy Net Tools polling daemon
 %build
 
 %install
-mkdir -p %{buildroot}/usr/lib/redborder/scripts
-install -D -m 0755 resources/scripts/redborder_net_tools.rb %{buildroot}/usr/lib/redborder/scripts/redborder_net_tools.rb
+install -D -m 0755 resources/scripts/redborder_net_tools.rb %{buildroot}/opt/redborder-net-tools/redborder_net_tools.rb
 install -D -m 0644 resources/systemd/redborder-net-tools.service %{buildroot}/usr/lib/systemd/system/redborder-net-tools.service
+mkdir -p %{buildroot}/etc/redborder-net-tools
 
 %post
 systemctl daemon-reload
@@ -35,9 +35,10 @@ fi
 
 %files
 %defattr(0755,root,root)
-/usr/lib/redborder/scripts/redborder_net_tools.rb
+/opt/redborder-net-tools/redborder_net_tools.rb
 %defattr(0644,root,root)
 /usr/lib/systemd/system/redborder-net-tools.service
+%dir %attr(0750,root,root) /etc/redborder-net-tools
 
 %doc
 

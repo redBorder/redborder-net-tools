@@ -4,8 +4,7 @@ After=network-online.target
 Wants=network-online.target
 
 [Service]
-EnvironmentFile=-/etc/sysconfig/redborder-net-tools
-ExecStart=/usr/lib/rvm/bin/rvm ruby-2.7.5@global /usr/lib/redborder/scripts/redborder_net_tools.rb
+ExecStart=/usr/lib/rvm/rubies/ruby-2.7.5/bin/ruby /opt/redborder-net-tools/redborder_net_tools.rb
 Restart=on-failure
 RestartSec=10
 StandardOutput=journal

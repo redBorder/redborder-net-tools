@@ -18,9 +18,9 @@
 # Polling daemon that pulls pending Net Tools tasks from the manager API,
 # executes them locally, and posts results back.
 #
-# Configuration is injected by systemd via EnvironmentFile:
-#   MANAGER_URL  — base URL of the redborder-webui (e.g. https://webui.redborder.cluster)
-#   SENSOR_UUID  — UUID of this proxy sensor (from Chef node redborder.sensor_uuid)
+# Configuration is read from /etc/redborder-net-tools/config.yml:
+#   manager_url  — base URL of the redborder-webui
+#   sensor_uuid  — UUID of this proxy sensor
 
 require 'json'
 require 'net/http'
@@ -29,7 +29,9 @@ require 'open3'
 require 'timeout'
 require 'logger'
 require 'shellwords'
+require 'yaml'
 
+CONFIG_FILE      = '/etc/redborder-net-tools/config.yml'
 POLL_INTERVAL    = 5   # seconds between polls
 MAX_OUTPUT_BYTES = 65_535
 
@@ -44,11 +46,17 @@ logger.formatter = proc { |sev, _dt, prog, msg| "#{sev} [#{prog}] #{msg}\n" }
 # Config
 # ---------------------------------------------------------------------------
 
-manager_url = ENV['MANAGER_URL'].to_s.strip
-sensor_uuid = ENV['SENSOR_UUID'].to_s.strip
+unless File.exist?(CONFIG_FILE)
+  logger.error("Config file not found: #{CONFIG_FILE}")
+  exit 1
+end
+
+config = YAML.safe_load(File.read(CONFIG_FILE)) || {}
+manager_url = config['manager_url'].to_s.strip
+sensor_uuid = config['sensor_uuid'].to_s.strip
 
 if manager_url.empty? || sensor_uuid.empty?
-  logger.error('MANAGER_URL and SENSOR_UUID must be set (via EnvironmentFile /etc/sysconfig/redborder-net-tools)')
+  logger.error("manager_url and sensor_uuid must be set in #{CONFIG_FILE}")
   exit 1
 end
 
