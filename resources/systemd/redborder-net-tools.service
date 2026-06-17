@@ -1,0 +1,16 @@
+[Unit]
+Description=redBorder Net Tools Agent
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+EnvironmentFile=-/etc/sysconfig/redborder-net-tools
+ExecStart=/usr/lib/rvm/bin/rvm ruby-2.7.5@global /usr/lib/redborder/scripts/redborder_net_tools.rb
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=redborder-net-tools
+
+[Install]
+WantedBy=multi-user.target
