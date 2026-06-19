@@ -6,7 +6,7 @@ Wants=network-online.target
 [Service]
 # Run as the unprivileged nobody user
 User=nobody
-Group=nobody
+Group=redborder-net-tools
 
 # Grant specific networking privileges to the unprivileged user
 CapabilityBoundingSet=CAP_NET_RAW CAP_NET_ADMIN
