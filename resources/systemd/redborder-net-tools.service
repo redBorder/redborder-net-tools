@@ -4,6 +4,17 @@ After=network-online.target
 Wants=network-online.target
 
 [Service]
+# Run as the unprivileged nobody user
+User=nobody
+Group=nobody
+
+# Grant specific networking privileges to the unprivileged user
+CapabilityBoundingSet=CAP_NET_RAW CAP_NET_ADMIN
+AmbientCapabilities=CAP_NET_RAW CAP_NET_ADMIN
+
+# Security hardening (Optional but highly recommended)
+NoNewPrivileges=true
+
 ExecStart=/usr/lib/rvm/rubies/ruby-2.7.5/bin/ruby /opt/redborder-net-tools/redborder_net_tools.rb
 Restart=on-failure
 RestartSec=10
