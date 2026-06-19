@@ -4,8 +4,8 @@ After=network-online.target
 Wants=network-online.target
 
 [Service]
-# Run as the unprivileged nobody user
-User=nobody
+# Run as the unprivileged
+User=redborder-net-tools
 Group=redborder-net-tools
 
 # Grant specific networking privileges to the unprivileged user
