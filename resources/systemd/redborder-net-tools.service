@@ -15,7 +15,7 @@ AmbientCapabilities=CAP_NET_RAW CAP_NET_ADMIN
 # Security hardening (Optional but highly recommended)
 NoNewPrivileges=true
 
-ExecStart=/usr/lib/rvm/rubies/ruby-2.7.5/bin/ruby /opt/redborder-net-tools/redborder_net_tools.rb
+ExecStart=/usr/lib/rvm/rubies/ruby-3.4.11/bin/ruby /opt/redborder-net-tools/redborder_net_tools.rb
 Restart=on-failure
 RestartSec=10
 StandardOutput=journal
